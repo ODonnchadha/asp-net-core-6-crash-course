@@ -26,3 +26,29 @@
       asp-controller="Products" asp-action="Index"
     ```
     - Model! (Let the compiler know that the model will not be null.)
+
+- ADDING A DAABASE:
+  - APproach:
+    - Use EF Core.
+    - Object/Relational Mapper (ORM) (Hibernate, Active Record.)
+    - Tables, schemas managed within a DbContext.
+    - Migrations to apply, or reverse, change.
+    - Providers. SQLite.
+
+    - Ensure that you are in the *.csproj directory:
+    ```javascript
+      dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+    ```
+    - For migrations, you need the global EF tool installed for the .NET CLI:
+    ```javascript
+      dotnet tool install -global dotnet-ef
+      dotnet add package Microsoft.EntityFrameworkCore.Design
+      dotnet ef migrations add Initial
+      dotnet ef database update
+    ```
+    - Add the "SqlLite" extension.
+    - [CTRL + SHIFT + P] to bring up the command pallet.
+      ```javascript
+        SqlLite: Open Database
+      ```
+      - SQLLITE EXPLORER is added to explorer window.
