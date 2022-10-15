@@ -18,3 +18,11 @@
       dotnet dev-certs https --help
       dotnet dev-certs https -t
     ```
+
+- ADDING CONTROLLERS, VIEWS, & MODELS
+  - [CTRL + ,] to view settings.
+  - Tag helpers:
+    ```javascript
+      asp-controller="Products" asp-action="Index"
+    ```
+    - Model! (Let the compiler know that the model will not be null.)
