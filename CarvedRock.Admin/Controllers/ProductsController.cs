@@ -21,4 +21,11 @@ public class ProductsController : Controller
         };
   }
   public IActionResult Index() => View(Products);
+
+  public IActionResult Details(int id)
+  {
+    var product = Products.Find(p => p.Id == id);
+    
+    return product == null ? NotFound() : View(product);
+  }
 }
