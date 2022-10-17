@@ -52,3 +52,11 @@
         SqlLite: Open Database
       ```
       - SQLLITE EXPLORER is added to explorer window.
+      - Scaffolding expedites the process of building but was never intended to be part of the finished product.
+        ```javascript
+          dotnet tool install -g dotnet-aspnet-codegenerator
+          dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+          dotnet-aspnet-codegenerator controller -name ProductsControllerDb -namespace CarvedRock.Admin.Controllers -model CarvedRock.Admin.Entities.Product -dataContext CarvedRock.Admin.Contexts.ProductContext
+        ```
+        - NOTE: Scaffolding failed.
+      - Scaffolding: No seperation of concern.
