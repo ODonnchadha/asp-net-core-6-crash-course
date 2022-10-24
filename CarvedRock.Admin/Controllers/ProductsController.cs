@@ -1,31 +1,98 @@
 using Microsoft.AspNetCore.Mvc;
 using CarvedRock.Admin.Models;
+using CarvedRock.Admin.Interfaces.Managers;
 
 namespace CarvedRock.Admin.Controllers;
 
 public class ProductsController : Controller
 {
-  private List<ProductModel> Products { get; set; }
-  public ProductsController()
+  private readonly ILogger<ProductsController> logger;
+  private readonly IProductManager manager;
+  public ProductsController(ILogger<ProductsController> logger, IProductManager manager) 
   {
-    this.Products = new List<ProductModel> 
-        {
-            new ProductModel {Id = 1, Name = "Trailblazer", Price = 69.99M, IsActive = true,
-                Description = "Great support in this high-top to take you to great heights and trails." },
-            new ProductModel {Id = 2, Name = "Coastliner", Price = 49.99M, IsActive = true,
-                Description = "Easy in and out with this lightweight but rugged shoe with great ventilation to get your around shores, beaches, and boats."},
-            new ProductModel {Id = 3, Name = "Woodsman", Price = 64.99M, IsActive = true,
-                Description = "All the insulation and support you need when wandering the rugged trails of the woods and backcountry." },
-            new ProductModel {Id = 4, Name = "Basecamp", Price = 249.99M, IsActive = true,
-                Description = "Great insulation and plenty of room for 2 in this spacious but highly-portable tent."},                            
-        };
+    this.logger = logger;
+    this.manager = manager;
   }
-  public IActionResult Index() => View(Products);
 
-  public IActionResult Details(int id)
+  [HttpGet()]
+  public async Task<IActionResult> Index()
   {
-    var product = Products.Find(p => p.Id == id);
-    
-    return product == null ? NotFound() : View(product);
+    var products = await manager.GetAllProductsAsync();
+    return View(products);
+  }
+
+  [HttpGet()]
+  public async Task<IActionResult> Details(int id)
+  {
+    var product = await manager.GetProductByIdAsync(id);
+    if (product == null)
+    {
+      logger.LogInformation($"Product Detail {id} was not found.");
+      return View("NotFound");
+    }
+
+    return View(product);
+  }
+
+  [HttpGet()]
+  public IActionResult Create() => View();
+  
+  [HttpPost(), ValidateAntiForgeryToken()]
+  public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,IsActive")] ProductModel model)
+  {
+    if (ModelState.IsValid)
+    {
+      await manager.AddProductAsync(model);
+      return RedirectToAction(nameof(Index));
+    }
+    return View(model);
+  }
+
+  [HttpGet()]
+  public async Task<IActionResult> Edit(int? id)
+  {
+    if (id == null)
+    {
+      logger.LogInformation($"Product edit id was not provided.");
+      return View("NotFound");
+    }
+
+    var product = await manager.GetProductByIdAsync(id.Value);
+
+    if (product == null) 
+    {
+      logger.LogInformation($"Product {id} for edit was not found.");
+      return View("NotFound");
+    }
+
+    return View(product);
+  }
+
+  [HttpPost(), ValidateAntiForgeryToken()]
+  public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,IsActive")] ProductModel model)
+  {
+    if (id != model.Id) return View("NotFound");
+    if (ModelState.IsValid)
+    {
+      await manager.UpdateProductAsync(model);
+      return RedirectToAction(nameof(Index));
+    }
+    return View(model);
+  }
+
+  [HttpGet()]
+  public async Task<IActionResult> Delete(int? id)
+  {
+    if (id == null) return View("NotFound");
+    var product = await manager.GetProductByIdAsync(id.Value);
+    if (product == null) return View("NotFound");
+    return View(product);
+  }
+
+  [HttpPost(), ActionName("Delete"), ValidateAntiForgeryToken()]
+  public async Task<IActionResult> DeleteConfirmed(int id)
+  {
+    await manager.RemoveProductAsync(id);
+    return RedirectToAction(nameof(Index));
   }
 }

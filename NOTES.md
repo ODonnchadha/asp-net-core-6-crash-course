@@ -60,3 +60,17 @@
         ```
         - NOTE: Scaffolding failed.
       - Scaffolding: No seperation of concern.
+  
+- WORKING WITH VIEWS:
+  - UI. Deeper understanding of Views and how they work.
+  - Three key View files:
+    - _ViewImports.cshtml: Common namespace imports, tag helper definitions.
+    - _ViewStart.cshtml: Indetifies layout for views.
+    - _Layout.cshtml: Layout (App Shell) content. and @RenderBody(). Can have a local CSS File. (CSS Isolation.)
+    - NOTE: Instances of these files can exist in View subdirectories.
+  - Server-side validation.
+  - Within Shared folder: _ValidationScriptsPartial.
+  - logger.LogInformation() within console.
+
+- ADDING RELATED DATA:
+  - Adding a product category. Db changes. Web application updated to reflect. Read. Then update.
