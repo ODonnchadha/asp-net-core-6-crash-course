@@ -17,11 +17,13 @@ public class CarvedRockRepository : ICarvedRockRepository
     return p;
   }
 
+  public async Task<List<Category>> GetAllCategoriesAsync() => await context.Categories.ToListAsync();
+
   public async Task<List<Product>> GetAllProductsAsync() => 
-    await context.Products.ToListAsync();
+    await context.Products.Include(p => p.Category).ToListAsync();
 
   public async Task<Product?> GetProductByIdAsync(int id) => 
-    await context.Products.FirstOrDefaultAsync(p => p.Id == id);
+    await context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
 
   public async Task RemoveProductAsync(int id)
   {

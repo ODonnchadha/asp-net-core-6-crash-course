@@ -35,11 +35,17 @@ public class ProductsController : Controller
   }
 
   [HttpGet()]
-  public IActionResult Create() => View();
+  public async Task<IActionResult> Create()
+  {
+    var model = await manager.InitializeProductModel();
+    return View(model);
+  }
   
   [HttpPost(), ValidateAntiForgeryToken()]
-  public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,IsActive")] ProductModel model)
+  public async Task<IActionResult> Create(ProductModel model)
   {
+    var x = model;
+    
     if (ModelState.IsValid)
     {
       await manager.AddProductAsync(model);

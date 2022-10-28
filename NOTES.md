@@ -74,3 +74,13 @@
 
 - ADDING RELATED DATA:
   - Adding a product category. Db changes. Web application updated to reflect. Read. Then update.
+  - null! "We know better and the string will not be null.
+  ```javascript
+    dotnet tool install --global dotnet-ef
+    dotnet ef migrations add Categories
+    dotnet ef database update
+    
+    dotnet tool install -g dotnet-aspnet-codegenerator
+    dotnet-aspnet-codegenerator -h
+
+  ```

@@ -5,6 +5,7 @@ using CarvedRock.Admin.Managers;
 using CarvedRock.Admin.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+// Basic logging. Basic configuration. e.g.: appsettings.json.
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();

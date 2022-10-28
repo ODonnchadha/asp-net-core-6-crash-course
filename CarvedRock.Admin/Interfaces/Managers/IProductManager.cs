@@ -9,4 +9,5 @@ public interface IProductManager
   Task AddProductAsync(ProductModel model);
   Task UpdateProductAsync(ProductModel model);
   Task RemoveProductAsync(int id);
+  Task<ProductModel> InitializeProductModel();
 }
